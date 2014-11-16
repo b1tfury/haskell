@@ -8,29 +8,41 @@ module Lab2 where
 -- Ex. 0
 -- ===================================
 
+
 toDigits :: Integer -> [Integer]
-toDigits = undefined
+toDigits x 
+	|  x<10&&x>=0 =  [x]
+ 	|  x < 0 =  error "Number less then 0" 
+	| otherwise = toDigits (x `div` 10 ) ++ [x`mod`10]
+
 
 -- ===================================
 -- Ex. 1
 -- ===================================
 
 toDigitsRev :: Integer -> [Integer]
-toDigitsRev = undefined
+toDigitsRev x
+	| x <0 = []
+	| x<10 = [x]
+	| otherwise = (x `mod` 10) : toDigitsRev (x`div`10)
 
 -- ===================================
 -- Ex. 2
 -- ===================================
 
 doubleSecond :: [Integer] -> [Integer]
-doubleSecond = undefined
+doubleSecond xs = [ isEven x y |(x,y) <- (zip xs [1..])]
+	where isEven x y = if y `mod` 2 ==0 then 2*x else x
 
 -- ===================================
 -- Ex. 3
 -- ===================================
 
 sumDigits :: [Integer] -> Integer
-sumDigits = undefined
+sumDigits [] = 0
+sumDigits (x:xs) 
+	| x<10 &&x>=0 = x + sumDigits xs
+	| otherwise = sumDigits (toDigits x) + sumDigits xs
 
 
 -- ===================================
@@ -38,7 +50,9 @@ sumDigits = undefined
 -- ===================================
 
 isValid :: Integer -> Bool
-isValid = undefined
+isValid x 
+	|  (sumDigits (doubleSecond ( toDigitsRev x )))`mod`10 ==0 = True
+	| otherwise = False
 
 
 -- ===================================
